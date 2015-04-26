@@ -1,4 +1,4 @@
-<?php namespace App;
+<?php namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -78,7 +78,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	    $user->email = $data['email'];
 	 
 	    if (!empty($data['password'])):
-	      $crypted = Crypter::encrypt($data['password']);
+	      $crypted = \Crypt::encrypt($data['password']);
 	      $user->password = $crypted->hashedPassword;
 	      $user->salt = $crypted->salt;
 	    endif;
@@ -86,6 +86,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	    $user->save();
 	 
 	    return $user;
+	}
+
+	public static function encrypt(){
+		$crypted = \Crypt::encrypt('123456');
+		dd($crypted);
 	}
 
 }
