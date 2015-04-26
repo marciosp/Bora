@@ -73,24 +73,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	    endif;
 
 		$user = new self;
- 
-	    $user->name = $data['name'];
-	    $user->email = $data['email'];
 	 
 	    if (!empty($data['password'])):
-	      $crypted = \Crypt::encrypt($data['password']);
-	      $user->password = $crypted->hashedPassword;
-	      $user->salt = $crypted->salt;
+	      $data['password'] = bcrypt($data['password']);
 	    endif;
-	 
+	 	
+	 	$user->fill($data);
 	    $user->save();
 	 
 	    return $user;
-	}
-
-	public static function encrypt(){
-		$crypted = \Crypt::encrypt('123456');
-		dd($crypted);
 	}
 
 }
