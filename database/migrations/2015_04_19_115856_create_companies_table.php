@@ -22,7 +22,7 @@ class CreateCompaniesTable extends Migration {
             $table->integer('number_employees')->unsigned();
             $table->enum('approved_contract', [0, 1]);
             $table->string('permalink');
-            $table->string('logo');
+            $table->string('logo')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 			$table->foreign('id_company_types')->references('id_company_types')->on('company_types');

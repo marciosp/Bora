@@ -21,7 +21,10 @@ class CreateOportunitiesTable extends Migration {
 			$table->decimal('salary', 9, 2);
 			$table->enum('period_salary', ['hora', 'dia', 'semana', 'mês', 'ano']);
 			$table->text('description');
+            $table->date('begins')->nullable()->default(NULL);
+            $table->date('ends')->nullable()->default(NULL);
 			$table->timestamps();
+			$table->softDeletes();
 			$table->foreign('id_users')->references('id_users')->on('users');
 			$table->foreign('id_companies')->references('id_companies')->on('companies');
 		});
