@@ -10,4 +10,16 @@ class Guest extends Model {
 	protected $hidden = ['deleted_at', 'updated_at', 'created_at'];
 	protected $softDelete = true;
 	public $timestamps = true;
+
+	public function oportunity(){
+		return $this->belongsTo('App\Models\Company', 'id_companies', 'id_companies');
+	}
+
+	public function user(){
+		return $this->belongsTo('App\Models\User', 'id_users', 'id_users');
+	}
+
+	public function answers(){
+		return $this->hasMany('App\Models\Answer', 'id_users', 'id_users');
+	}
 }

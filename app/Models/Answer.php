@@ -10,4 +10,12 @@ class Answer extends Model {
 	protected $hidden = ['deleted_at', 'updated_at', 'created_at'];
 	protected $softDelete = true;
 	public $timestamps = true;
+
+	public function question(){
+		return $this->belongsTo('App\Models\Question', 'id_questions', 'id_questions');
+	}
+
+	public function user(){
+		return $this->hasOne('App\Models\User', 'id_users', 'id_users');
+	}
 }

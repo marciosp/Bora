@@ -23,7 +23,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'gender', 'password', 'salt'];
+	protected $fillable = ['name', 'email', 'gender', 'cpf', 'birthday', 'password', 'salt'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -63,6 +63,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return Validator::make($data, $rules);
 	}
 
+	/*
+	* Create new user
+	*
+	* @param array $data Data of user
+	*
+	* @return User
+	*/
 	public static function newUser($data){
 		$validate = self::validateUser($data, 'C');
  
@@ -82,6 +89,55 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	    $user->save();
 	 
 	    return $user;
+	}
+
+
+	/*
+	* Update a user
+	*
+	* @param array $data Data of user
+	*
+	* @return User
+	*/
+	public static function updateUser($data){
+		$validate = self::validateUser($data, 'U');
+ 
+	    if ($validate->fails()):
+			$response['messages'] = $validate->messages()->toArray();
+			$response['return_code'] = '406';
+			return $response;
+	    endif;
+
+	    $user = self::find($data['id_users']);
+	    $user->fill($data);
+	    $user->save();
+
+	    return $user;
+	}
+
+
+	/*
+	* Get user
+	*
+	* @param int $idUser ID of user
+	*
+	* @return User
+	*/
+	public static function getUser($idUser){
+
+	}
+
+
+	/*
+	* Delete a user
+	*
+	* @param int $idUser ID of user
+	*
+	* @return boolean
+	*/
+	public static function deleteUser($idUser){
+		$user = self::find($idUser);
+		return $user->delete();
 	}
 
 }
