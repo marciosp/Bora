@@ -10,4 +10,8 @@ class CompanyType extends Model {
 	protected $hidden = ['deleted_at', 'updated_at', 'created_at'];
 	protected $softDelete = true;
 	public $timestamps = true;
+
+	public function company(){
+		return $this->hasMany('App\Models\Company', 'id_company_types', 'id_company_types');
+	}
 }

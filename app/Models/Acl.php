@@ -10,4 +10,16 @@ class Acl extends Model {
 	protected $softDelete = false;
 	public $timestamps = false;
 
+	public function company(){
+		return $this->hasOne('App\Models\Company', 'id_companies', 'id_companies');
+	}
+
+	public function user(){
+		return $this->hasOne('App\Models\User', 'id_users', 'id_users');
+	}
+
+	public function permission(){
+		return $this->hasOne('App\Models\Permission', 'id_permissions', 'id_permissions');
+	}
+
 }

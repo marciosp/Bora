@@ -11,4 +11,8 @@ class Permission extends Model {
 	protected $softDelete = true;
 	public $timestamps = true;
 
+	public function acl(){
+		return $this->hasMany('App\Models\Acl', 'id_permissions', 'id_permissions');
+	}
+
 }

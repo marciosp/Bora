@@ -15,6 +15,18 @@ class Company extends Model {
 		return $this->belongsToMany('App\Models\Plan', 'companies_has_plans', 'id_companies', 'id_plans');
 	}
 
+	public function acl(){
+		return $this->hasMany('App\Models\Acl', 'id_companies', 'id_companies');
+	}
+
+	public function companyType(){
+		return $this->hasOne('App\Models\CompanyType', 'id_company_types', 'id_company_types');
+	}
+
+	public function lineBusuness(){
+		return $this->hasOne('App\Models\LineBusiness', 'id_line_business', 'id_line_business');
+	}
+
 	/*
 	* Validate company data
 	*
