@@ -18,6 +18,7 @@ class CreateAnswersTable extends Migration {
     		$table->integer('id_questions')->unsigned();
     		$table->integer('id_users')->unsigned();
     		$table->string('answer');
+			$table->decimal('grade',9,2);
             $table->timestamps();
     		$table->softDeletes();
 			$table->foreign('id_questions')->references('id_questions')->on('questions');
