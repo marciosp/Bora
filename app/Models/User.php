@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['password', 'salt', 'remember_token'];
+	protected $hidden = ['id_users', 'password', 'salt', 'remember_token'];
 
 	/*
 	* Validate user data
@@ -125,6 +125,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	*/
 	public static function getUser($idUser){
 
+	}
+
+	public static function getUserByEmail($email){
+		return self::where('email', $email)->first();
 	}
 
 
