@@ -24,5 +24,10 @@ Route::group(['prefix' => 'api/v1'], function() {
 		'password' => 'Auth\PasswordController',
 	]);
 
-	Route::post('users/login', 'UsersController@login');
+	Route::post('users', 'UsersController@store');
+});
+
+Route::group(['middleware' => 'auth.token', 'prefix' => 'api/v1'], function() {
+
+	Route::put('users/{id}', 'UsersController@update');
 });
