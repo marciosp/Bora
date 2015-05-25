@@ -53,7 +53,7 @@ class Company extends Model {
 			$rules['cnpj'] = 'cnpj|unique:companies,cnpj,' . $data['id_companies'] . ',id_companies';
 		endif;
 
-		return Validator::make($data, $rules);
+		return \Validator::make($data, $rules);
 	}
 
 	/*

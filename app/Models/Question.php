@@ -40,7 +40,7 @@ class Question extends Model {
 			$rules['id_questions'] = 'required|integer|exists:companies,id_questions';
 		endif;
 
-		return Validator::make($data, $rules);
+		return \Validator::make($data, $rules);
 	}
 
 	/*
