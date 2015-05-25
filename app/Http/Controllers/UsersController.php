@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Models;
 
 class UsersController extends Controller {
 
@@ -14,7 +15,7 @@ class UsersController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		return \Response::json('Forbiden Access',403);
 	}
 
 	/**
@@ -24,7 +25,7 @@ class UsersController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		return \Response::json('Forbiden Access',403);
 	}
 
 	/**
@@ -34,7 +35,9 @@ class UsersController extends Controller {
 	 */
 	public function store()
 	{
-		//
+		$data = \Input::all();
+		$newUser = Models\User::newUser($data);
+		return \Response::json($newUser, $newUser['return_code']);
 	}
 
 	/**
@@ -45,7 +48,8 @@ class UsersController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+		$user = Models\User::getUser($id);
+		return \Response::json($user);
 	}
 
 	/**
@@ -56,7 +60,7 @@ class UsersController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		return \Response::json('Forbiden Access',403);
 	}
 
 	/**
@@ -67,7 +71,11 @@ class UsersController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+		//TODO verificar se o usuario alterante e o mesmo a ser alterado (token)
+		$data = \Input::all();
+		$data['id_users'] = $id;
+		$updateUser = Models\User::updateUser($data);
+		return \Response::json($updateUser, $updateUser['return_code']);
 	}
 
 	/**
@@ -78,7 +86,7 @@ class UsersController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		return Response::json(Models\User::getuser($id));
 	}
 
 }

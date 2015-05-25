@@ -36,7 +36,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	* Validate user data
 	*
 	* @param array $data Data of user
-	* @param String $type Type of validation Create or Update
+	* @param String $type Type of validation Create, Update or Invite
 	*
 	* @return Illuminate\Validation\Validator
 	*/
@@ -45,9 +45,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		$minDate = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d'), date('Y') - 100));
 
 		$rules = array(
-		    'email' => 'email|unique:users',
-		    'password' => 'min:8|confirmed',
-		    'name' => 'regex:/^([a-zà-úÀ-Ú\x20])+$/i',
+		    'email' => 'required|email|unique:users',
+		    'password' => 'required|min:8|confirmed',
+		    'name' => 'required|regex:/^([a-zà-úÀ-Ú\x20])+$/i',
 		    'gender' => 'in:M,F',
 		    'cpf' => 'size:11',
 		    'birthday' => 'after:' . $minDate . '|before:' . $maxDate,
@@ -55,12 +55,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		    'cellphone' => 'min:10',
 		);
 
-		if ($type == 'U') :
+		if ($type == 'U') {
 			$rules['id_users'] = 'required|integer|exists:users,id_users';
 			$rules['email'] = 'email|unique:users,email,' . $data['id_users'] . ',id_users';
-		endif;
+			$rules['password'] = 'min:8|confirmed';
+		} elseif ($type == 'I') {
+			unset($rules['password']);
+		}
 
-		return Validator::make($data, $rules);
+		return \Validator::make($data, $rules);
 	}
 
 	/*
@@ -87,8 +90,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 	
 	 	$user->fill($data);
 	    $user->save();
-	 
-	    return $user;
+	    $user->token = \Crypt::encrypt(['id_users' => $user->id_users]);
+	 	
+	 	$response = ['user' => $user, 'return_code' => 201];
+	    return $response;
 	}
 
 
@@ -112,7 +117,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	    $user->fill($data);
 	    $user->save();
 
-	    return $user;
+	    $response = ['user' => $user, 'return_code' => 200];
+	    return $response;
 	}
 
 
@@ -124,7 +130,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	* @return User
 	*/
 	public static function getUser($idUser){
-
+		return self::fund($idUser);
 	}
 
 	public static function getUserByEmail($email){
