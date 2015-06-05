@@ -78,11 +78,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	* Create new user
 	*
 	* @param array $data Data of user
+	* @param string $type Type of validation
 	*
 	* @return User
 	*/
-	public static function newUser($data){
-		$validate = self::validateUser($data, 'C');
+	public static function newUser($data, $type = 'C'){
+		$validate = self::validateUser($data, $type);
  
 	    if ($validate->fails()){
 			$response['messages'] = $validate->messages()->toArray();
