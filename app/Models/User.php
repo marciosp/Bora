@@ -32,6 +32,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['id_users', 'password', 'salt', 'remember_token'];
 
+	public function acl(){
+		return $this->hasMany('App\Models\Acl', 'id_users', 'id_users');
+	}
+
+	public function guest(){
+		return $this->hasMany('App\Models\Guest', 'id_users', 'id_users');
+	}
+
 	/*
 	* Validate user data
 	*
