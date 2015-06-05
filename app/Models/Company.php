@@ -45,7 +45,7 @@ class Company extends Model {
 		    'cnpj' => 'cnpj|unique:companies',
 		    'id_line_business' => 'required|integer|exists:line_business,id_line_business',
 		    'approved_contract' => 'in:0,1',
-		    'permalink' => 'required'
+		    //'permalink' => 'required'
 		);
 
 		if ($type == 'U') :
@@ -66,20 +66,19 @@ class Company extends Model {
 	public static function newCompany($data){
 		$validate = self::validateCompany($data, 'C');
  
-	    if ($validate->fails()):
+	    if ($validate->fails()){
 			$response['messages'] = $validate->messages()->toArray();
-			$response['return_code'] = '406';
+			$response['return_code'] = 406;
 			return $response;
-	    endif;
+	    }
 
 		$company = new self;
 	 	
 	 	$company->fill($data);
 	    $company->save();
 	 
-	    return $company;
+	    return ['company' => $company, 'return_code' => 201];
 	}
-
 
 	/*
 	* Update a Company
@@ -91,19 +90,20 @@ class Company extends Model {
 	public static function updateCompany($data){
 		$validate = self::validateCompany($data, 'U');
  
-	    if ($validate->fails()):
+		#TODO validar Acl
+
+	    if ($validate->fails()){}
 			$response['messages'] = $validate->messages()->toArray();
-			$response['return_code'] = '406';
+			$response['return_code'] = 406;
 			return $response;
-	    endif;
+	    }
 
 	    $company = self::find($data['id_companies']);
 	    $company->fill($data);
 	    $company->save();
 
-	    return $company;
+	    return ['company' => $company, 'return_code' => 200];
 	}
-
 
 	/*
 	* Get company
@@ -115,7 +115,6 @@ class Company extends Model {
 	public static function getCompany($idCompany){
 		return self::find($idCompany);
 	}
-
 
 	/*
 	* Delete a Company
