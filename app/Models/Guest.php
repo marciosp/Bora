@@ -22,4 +22,18 @@ class Guest extends Model {
 	public function answers(){
 		return $this->hasMany('App\Models\Answer', 'id_users', 'id_users');
 	}
+
+	public static function validateGuest($data, $type = 'C'){
+		$rules = array(
+		    'email' => 'required|email',
+		    'name' => 'required|regex:/^([a-zà-úÀ-Ú\x20])+$/i'
+		);
+
+		if ($type == 'U') {
+			$rules['id_users'] = 'required|integer|exists:guests,id_users';
+			$rules['id_guests'] = 'required|integer|exists:guests,id_guests';
+		}
+
+		return \Validator::make($data, $rules);
+	}
 }
