@@ -24,7 +24,7 @@ class QuestionsController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		return \Response::json('Forbiden Access',403);
 	}
 
 	/**
@@ -34,7 +34,10 @@ class QuestionsController extends Controller {
 	 */
 	public function store()
 	{
-		//
+		$data = \Input::all();
+		$newQuestion = Models\Question::newQuestion($data);
+
+		return \Response::json($newQuestion, $newQuestion['return_code']);
 	}
 
 	/**
@@ -45,7 +48,8 @@ class QuestionsController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+		$question = Models\Company::getQuestion($id);
+		return \Response::json($question);
 	}
 
 	/**
@@ -56,7 +60,7 @@ class QuestionsController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		return \Response::json('Forbiden Access',403);
 	}
 
 	/**
@@ -67,7 +71,11 @@ class QuestionsController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+		$data = \Input::all()
+		$data['id_companies'] = $id;
+
+		$question = Models\Question::updateQuestion($data);
+		return \Response::json($question, $question['return_code']);
 	}
 
 	/**

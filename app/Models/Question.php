@@ -52,6 +52,8 @@ class Question extends Model {
 	*/
 	public static function newQuestion($data){
 		$validate = self::validateQuestion($data, 'C');
+
+		#TODO validar Acl
  
 	    if ($validate->fails()){
 			$response['messages'] = $validate->messages()->toArray();
@@ -77,6 +79,8 @@ class Question extends Model {
 	*/
 	public static function updateQuestion($data){
 		$validate = self::validateQuestion($data, 'U');
+
+		#TODO validar Acl
  
 	    if ($validate->fails()){
 			$response['messages'] = $validate->messages()->toArray();
