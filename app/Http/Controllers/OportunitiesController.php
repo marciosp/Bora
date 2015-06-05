@@ -36,7 +36,7 @@ class OportunitiesController extends Controller {
 	public function store()
 	{
 		$data = \Input::all();
-		$newOportunity = Models\Company::newOportunity($data);
+		$newOportunity = Models\Oportunity::newOportunity($data);
 
 		return \Response::json($newOportunity, $newOportunity['return_code']);
 	}
