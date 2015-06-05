@@ -76,11 +76,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public static function newUser($data){
 		$validate = self::validateUser($data, 'C');
  
-	    if ($validate->fails()):
+	    if ($validate->fails()){
 			$response['messages'] = $validate->messages()->toArray();
-			$response['return_code'] = '406';
+			$response['return_code'] = 406;
 			return $response;
-	    endif;
+	    }
 
 		$user = new self;
 	 
@@ -107,11 +107,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public static function updateUser($data){
 		$validate = self::validateUser($data, 'U');
  
-	    if ($validate->fails()):
+	    if ($validate->fails()){
 			$response['messages'] = $validate->messages()->toArray();
-			$response['return_code'] = '406';
+			$response['return_code'] = 406;
 			return $response;
-	    endif;
+	    }
 
 	    $user = self::find($data['id_users']);
 	    $user->fill($data);

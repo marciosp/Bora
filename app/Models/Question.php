@@ -37,7 +37,7 @@ class Question extends Model {
 		);
 
 		if ($type == 'U') :
-			$rules['id_questions'] = 'required|integer|exists:companies,id_questions';
+			$rules['id_questions'] = 'required|integer|exists:questions,id_questions';
 		endif;
 
 		return \Validator::make($data, $rules);
@@ -53,18 +53,18 @@ class Question extends Model {
 	public static function newQuestion($data){
 		$validate = self::validateQuestion($data, 'C');
  
-	    if ($validate->fails()):
+	    if ($validate->fails()){
 			$response['messages'] = $validate->messages()->toArray();
-			$response['return_code'] = '406';
+			$response['return_code'] = 406;
 			return $response;
-	    endif;
+	    }
 
 		$question = new self;
 	 	
 	 	$question->fill($data);
 	    $question->save();
 	 
-	    return $question;
+	    return ['question' => $question, 'return_code' => 201];
 	}
 
 
@@ -78,17 +78,17 @@ class Question extends Model {
 	public static function updateQuestion($data){
 		$validate = self::validateQuestion($data, 'U');
  
-	    if ($validate->fails()):
+	    if ($validate->fails()){
 			$response['messages'] = $validate->messages()->toArray();
-			$response['return_code'] = '406';
+			$response['return_code'] = 406;
 			return $response;
-	    endif;
+	    }
 
 	    $question = self::find($data['id_companies']);
 	    $question->fill($data);
 	    $question->save();
 
-	    return $question;
+	    return ['question' => $question, 'return_code' => 200];
 	}
 
 
