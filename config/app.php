@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'url' => 'http://bora.videojobs.dev',
+	'url' => env('APP_URL','http://bora.videojobs.dev'),
 
 	/*
 	|--------------------------------------------------------------------------
