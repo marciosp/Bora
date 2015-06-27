@@ -96,7 +96,7 @@ trait AuthenticatesUsers {
 	 */
 	protected function getFailedLoginMessage()
 	{
-		return 'These credentials do not match our records.';
+		return 'E-mail e/ou senha inválidos.';
 	}
 
 	/**

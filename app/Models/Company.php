@@ -92,7 +92,7 @@ class Company extends Model {
  
 		#TODO validar Acl
 
-	    if ($validate->fails()){}
+	    if ($validate->fails()){
 			$response['messages'] = $validate->messages()->toArray();
 			$response['return_code'] = 406;
 			return $response;
