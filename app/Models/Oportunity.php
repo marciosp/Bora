@@ -31,7 +31,7 @@ class Oportunity extends Model {
 	*
 	* @return Illuminate\Validation\Validator
 	*/
-	public static validateOportunity($data, $type = 'C'){
+	public static function validateOportunity($data, $type = 'C'){
 		$rules = array(
 		    'id_users' => 'required|integer|exists:users,id_users',
 		    'id_companies' => 'required|integer|exists:companies,id_companies',
