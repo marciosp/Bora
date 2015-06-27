@@ -139,7 +139,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	* @return User
 	*/
 	public static function getUser($idUser){
-		return self::fund($idUser);
+		return self::fInd($idUser);
 	}
 
 	public static function getUserByEmail($email){
