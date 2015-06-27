@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CompanyHasPlan;
 
-class CompanyHasPlanTableSeederTableSeeder extends Seeder {
+class CompanyHasPlanTableSeeder extends Seeder {
 
 	/**
 	 * Run the database seeds.
