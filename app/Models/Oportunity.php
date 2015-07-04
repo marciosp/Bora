@@ -16,7 +16,7 @@ class Oportunity extends Model {
 	}
 
 	public function company(){
-		return $this->hasOne('App\Models\Company', 'id_companies', 'id_companies');
+		return $this->belongsTo('App\Models\Company', 'id_companies', 'id_companies');
 	}
 
 	public function guests(){
