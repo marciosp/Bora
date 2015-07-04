@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Library\Permalink;
+
 class Company extends Model {
 
 	protected $table = 'companies';
@@ -24,7 +26,15 @@ class Company extends Model {
 	}
 
 	public function lineBusuness(){
-		return $this->hasOne('App\Models\LineBusiness', 'id_line_business', 'id_line_business');
+		return $this->belongsTo('App\Models\LineBusiness', 'id_line_business', 'id_line_business');
+	}
+
+	public function oportunity(){
+		return $this->hasMany('App\Models\Oportunity', 'id_companies', 'id_companies');
+	}
+
+	public function image(){
+		return $this->hasMany('App\Models\Image', 'id_companies', 'id_companies');
 	}
 
 	/*
@@ -72,6 +82,8 @@ class Company extends Model {
 			return $response;
 	    }
 
+	    $data['permalink'] = Permalink::make($data['name']);
+
 		$company = new self;
 	 	
 	 	$company->fill($data);
@@ -114,6 +126,17 @@ class Company extends Model {
 	*/
 	public static function getCompany($idCompany){
 		return self::find($idCompany);
+	}
+
+	/*
+	* Get company by permalink
+	*
+	* @param string $permalink Permalink of company
+	*
+	* @return Company
+	*/
+	public static function getCompanyByPermalink($permalink){
+		return self::where('permalink', $permalink)->with('companyType', 'image', 'plan')->first();
 	}
 
 	/*

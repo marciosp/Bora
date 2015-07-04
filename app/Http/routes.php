@@ -23,11 +23,19 @@ Route::group(['prefix' => 'api/v1'], function() {
 		'auth' => 'Auth\AuthController',
 		'password' => 'Auth\PasswordController',
 	]);
+	//Users
+	Route::post('users', 'UsersController@store');
+	Route::get('users/{permalink}', 'UsersController@show');
 
-	Route::resource('users', 'UsersController');
+	//Companies
+	Route::get('companies/{permalink}', 'CompaniesController@show');
 });
 
 Route::group(['middleware' => 'auth.token', 'prefix' => 'api/v1'], function() {
-
+	//Users
 	Route::put('users/{id}', 'UsersController@update');
+
+	//Companies
+	Route::post('companies', 'CompaniesController@store');
+	Route::put('companies/{id}', 'CompaniesController@update');
 });

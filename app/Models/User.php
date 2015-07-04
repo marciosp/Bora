@@ -6,6 +6,8 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+use App\Library\Permalink;
+
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
 	use Authenticatable, CanResetPassword;
@@ -23,7 +25,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'gender', 'cpf', 'birthday', 'password', 'salt'];
+	protected $fillable = ['name', 'email', 'gender', 'cpf', 'birthday', 'permalink', 'password', 'salt'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -38,6 +40,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	public function guest(){
 		return $this->hasMany('App\Models\Guest', 'id_users', 'id_users');
+	}
+
+	public function image(){
+		return $this->hasMany('App\Models\Image', 'id_users', 'id_users');
 	}
 
 	/*
@@ -91,6 +97,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 			return $response;
 	    }
 
+	    $data['permalink'] = Permalink::make($data['name']);
+
 		$user = new self;
 	 
 	    if (!empty($data['password'])):
@@ -130,7 +138,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	    return $response;
 	}
 
-
 	/*
 	* Get user
 	*
@@ -146,6 +153,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return self::where('email', $email)->first();
 	}
 
+	public static function getUserByPermalink($permalink){
+		return self::where('permalink', $permalink)->with('image')->first();
+	}
 
 	/*
 	* Delete a user

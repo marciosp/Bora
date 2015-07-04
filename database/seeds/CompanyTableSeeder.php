@@ -22,7 +22,7 @@ class CompanyTableSeeder extends Seeder {
 			'id_line_business' => 1, 
 			'number_employees' => 3, 
 			'approved_contract' => 1, 
-			'permalink' => 'video_jobs']);
+			'permalink' => 'video-jobs']);
 	}
 
 }

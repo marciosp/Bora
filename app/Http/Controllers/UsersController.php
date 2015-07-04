@@ -43,12 +43,12 @@ class UsersController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  string  $permalink
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($permalink)
 	{
-		$user = Models\User::getUser($id);
+		$user = Models\User::getUserByPermalink($permalink);
 		return \Response::json($user);
 	}
 

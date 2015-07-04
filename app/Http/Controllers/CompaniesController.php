@@ -46,12 +46,12 @@ class CompaniesController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  string  $permalink
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($permalink)
 	{
-		$company = Models\Company::getCompany($id);
+		$company = Models\Company::getCompanyByPermalink($permalink);
 		return \Response::json($company);
 	}
 
@@ -74,7 +74,7 @@ class CompaniesController extends Controller {
 	 */
 	public function update($id)
 	{
-		$data = \Input::all()
+		$data = \Input::all();
 		$data['id_companies'] = $id;
 
 		$company = Models\Company::updateCompany($data);

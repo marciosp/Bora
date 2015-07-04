@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration {
 			$table->string('gender', 1)->nullable()->default('');
             $table->string('cpf', 11)->nullable()->default('');
             $table->date('birthday')->nullable()->default(NULL);
+            $table->string('permalink')->unique();
 			$table->rememberToken();
 			$table->timestamps();
 		});
