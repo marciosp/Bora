@@ -1,4 +1,4 @@
-<?php namespace App\Model;
+<?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
@@ -65,7 +65,7 @@ class Image extends Model {
 		$image->fill($data);
 		$image->save();
 
-		return return ['id_images' => $image->id_images, 'return_code' => 201];
+		return ['id_images' => $image->id_images, 'return_code' => 201];
     }
 
 }
