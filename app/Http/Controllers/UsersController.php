@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models;
+//use LucaDegasperi\OAuth2Server\Facades\AuthorizerFacade;
+use Authorizer;
 
 class UsersController extends Controller {
 
@@ -53,6 +55,19 @@ class UsersController extends Controller {
 	}
 
 	/**
+	 * Display the specified resource.
+	 *
+	 * @param  string  $permalink
+	 * @return Response
+	 */
+	public function getUserData()
+	{	
+		$idUser = Authorizer::getResourceOwnerId();
+		$user = Models\User::getUser($idUser);
+		return \Response::json($user);
+	}
+
+	/**
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  int  $id
@@ -71,7 +86,11 @@ class UsersController extends Controller {
 	 */
 	public function update($id)
 	{
-		//TODO verificar se o usuario alterante e o mesmo a ser alterado (token)
+		//verificar se o usuario alterante e o mesmo a ser alterado (token)
+		if(Authorizer::getResourceOwnerId() != $id){
+			return \Response::json(['messages' => 'Acesso Negado'], 401);
+		}
+
 		$data = \Input::all();
 		$data['id_users'] = $id;
 		$updateUser = Models\User::updateUser($data);
@@ -86,6 +105,10 @@ class UsersController extends Controller {
 	 */
 	public function destroy($id)
 	{
+		if(Authorizer::getResourceOwnerId() != $id){
+			return \Response::json(['messages' => 'Acesso Negado'], 401);
+		}
+
 		return Response::json(Models\User::getuser($id));
 	}
 

@@ -11,13 +11,18 @@
 |
 */
 
-Route::group(['before' => 'auth', 'prefix' => 'api/v1'], function() {
+Route::group(['before' => 'oauth', 'prefix' => 'api/v1'], function() {
+	Route::get('users/user-data', 'UsersController@getUserData');
 });
     Route::get('/', 'WelcomeController@index');
 
 	Route::get('home', 'HomeController@index');
 
 Route::group(['prefix' => 'api/v1'], function() {
+
+	Route::post('oauth/access-token', function(){
+		return Response::json(Authorizer::issueAccessToken());
+	});
 
 	Route::controllers([
 		'auth' => 'Auth\AuthController',

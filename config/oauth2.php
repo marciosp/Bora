@@ -86,8 +86,9 @@ return [
                     'password' => $password,
                 ];
     
-                if (Auth::once($credentials)) {
-                    return Auth::user()->id;
+                if (Auth::validate($credentials)) {
+                    $user = \App\Models\User::where('email', $username)->first();
+                    return $user->id_users;
                 } else {
                     return false;
                 }
