@@ -146,15 +146,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	* @return User
 	*/
 	public static function getUser($idUser){
-		return self::find($idUser);
+		return self::with(['image' => function($query){
+			$query->where('main', 1);
+		}])->find($idUser);
 	}
 
 	public static function getUserByEmail($email){
-		return self::where('email', $email)->first();
+		return self::where('email', $email)
+			->with(['image' => function($query){
+			$query->where('main', 1);
+		}])->first();
 	}
 
 	public static function getUserByPermalink($permalink){
-		return self::where('permalink', $permalink)->with('image')->first();
+		return self::where('permalink', $permalink)
+			->with(['image' => function($query){
+			$query->where('main', 1);
+		}])->first();
 	}
 
 	/*
